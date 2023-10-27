@@ -23,6 +23,48 @@ function App() {
     }
   }
 
+
+  function ToDoList({items}){
+
+    //Delete an item from the list
+    function handleDeleteItem(id) {
+      alert("Delete Item with ID: "+id);
+      //Filtere alle Items, die nicht gelöscht werden sollen
+      let newItems = items.filter((item) => item.id !== id);
+      //Setze die neue Liste
+      setTodos(newItems);      
+    }
+  
+    return(<>
+            <div className="container mt-5">
+              <table className="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Beschreibung</th>
+                    <th scope="col">Bearbeiten</th>
+                    <th scope="col">Löschen</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.map( (item, index )=> { 
+                    return(
+                      <tr key={item.id}>
+                        <th scope="row">{index+1}</th>
+                        <td>{item.value}</td>
+                        <td><i className="bi bi-pencil-square"></i></td>
+                        <td><i className="bi bi-trash" onClick={() => handleDeleteItem(item.id)}></i></td>
+                      </tr>
+                      )
+                      }
+                    )
+                  }     
+                </tbody>
+              </table>
+            </div>
+          </>)
+  }
+  
   return (
     /*  
         Die App besteht aus zwei Komponenten: 
@@ -34,16 +76,6 @@ function App() {
       <ToDoList items={todos}></ToDoList>
     </>
   );
-}
-
-//Generate a unique 4 digit ID
-function generateID(){
-  return Math.floor(Math.random() * 10000);
-}
-
-//Delete an item from the list
-function deleteItem(id){
-  alert("Delete Item with ID: "+id);
 }
 
 /**
@@ -66,35 +98,15 @@ function TodoInputField({onAddNewItem, inputId}){
           </>)
 }
 
-function ToDoList({items}){
-  
-  return(<>
-          <div className="container mt-5">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Beschreibung</th>
-                  <th scope="col">Bearbeiten</th>
-                  <th scope="col">Löschen</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map( (item, index )=> { 
-                  return(<tr>
-                          <th scope="row">{index+1}</th>
-                          <td>{item.value}</td>
-                          <td><i className="bi bi-pencil-square"></i></td>
-                          <td><i className="bi bi-trash"></i></td>
-                        </tr>)
-                    }
-                  )
-                }     
-              </tbody>
-            </table>
-          </div>
-        </>)
+
+
+//Helperfunktionen
+//Generate a unique 4 digit ID
+function generateID(){
+  return Math.floor(Math.random() * 10000);
 }
+
+
 
 export default App;
 
