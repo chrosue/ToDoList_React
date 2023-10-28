@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
   //Initial wird ein leeres Array übergeben => keine Todos vorhanden
@@ -34,6 +34,22 @@ function App() {
       //Setze die neue Liste
       setTodos(newItems);      
     }
+
+    //Edit an item from the list
+    function handleEditItem(id) {
+      alert("Edit Item with ID: "+id);
+          
+      //make seperate copy of the list
+      let newItems = [...items];
+      //Find the item with the given ID
+      let itemToEdit = newItems.find((item) => item.id === id);
+      //Change the value of the item
+      itemToEdit.value = prompt("Bitte neuen Wert eingeben", itemToEdit.value);
+      //Setze die neue Liste
+      setTodos(newItems);
+
+
+    }
   
     return(<>
             <div className="container mt-5">
@@ -52,7 +68,7 @@ function App() {
                       <tr key={item.id}>
                         <th scope="row">{index+1}</th>
                         <td>{item.value}</td>
-                        <td><i className="bi bi-pencil-square"></i></td>
+                        <td><i className="bi bi-pencil-square" onClick={() => handleEditItem(item.id)}></i></td>
                         <td><i className="bi bi-trash" onClick={() => handleDeleteItem(item.id)}></i></td>
                       </tr>
                       )
@@ -73,7 +89,7 @@ function App() {
     */
     <>
       <TodoInputField onAddNewItem={updateTodoList} inputId= {fieldID} ></TodoInputField>
-      <ToDoList items={todos}></ToDoList>
+      <ToDoList items={todos} ></ToDoList>
     </>
   );
 }
@@ -97,6 +113,7 @@ function TodoInputField({onAddNewItem, inputId}){
             </div>
           </>)
 }
+
 
 
 
